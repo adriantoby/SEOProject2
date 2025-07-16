@@ -1,3 +1,5 @@
+from logic import get_insider_transactions, get_RSI, get_SMA, get_current_price
+
 def get_trade_signal(rsi, current_price, moving_avg):
     if rsi < 30 and current_price < moving_avg:
         return "BUY"
@@ -22,22 +24,16 @@ def should_send_alert(current_price, last_alert_price, threshold=2.0):
     return abs(current_price - last_alert_price) >= threshold
 
 
-def get_trade_signal(rsi, current_price, moving_avg):
-    if rsi < 30 and current_price < moving_avg:
-        return "BUY"
-    elif rsi > 70 and current_price > moving_avg:
-        return "SELL"
-    else:
-        return "HOLD"
-
 if __name__ == "__main__":
-    rsi = 25
-    current_price = 145.0
-    moving_avg = 150.0
+    symbol = "CAT"
+    rsi = get_RSI(symbol)
+    current_price = get_current_price(symbol)
+    moving_avg = get_SMA(symbol)
+
+    print(rsi)
+    print(current_price)
+    print(moving_avg)
 
     decision = get_trade_signal(rsi, current_price, moving_avg)
     print(f"Trade signal: {decision}")
 
-git add backend/decision_logic.py
-git commit -m "Add decision logic with test block"
-git push

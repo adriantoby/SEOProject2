@@ -1,9 +1,32 @@
-<!DOCTYPE HTML>
-<html>
-    <head>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartInvest - Home</title>
+  <link rel="stylesheet" href="/static/style.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 
-    </head>
-    <body>
-        <h1> Testing if HOME shows up </h1>
-    </body>
+</head>
+<body>
+  <header>
+    <h1>SmartInvest</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/about">About</a>
+      <a href="/trade">Trade</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Welcome to SmartInvest</h2>
+    <p>
+      SmartInvest helps you decide when to buy or sell stocks by analyzing insider trades and market trends.
+    </p>
+    <p>
+      Click below to start tracking your favorite stocks:
+    </p>
+    <a class="button" href="/trade">Go to Trade Page</a>
+  </main>
+</body>
 </html>

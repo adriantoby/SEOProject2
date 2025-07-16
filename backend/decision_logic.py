@@ -37,7 +37,3 @@ if __name__ == "__main__":
 
     decision = get_trade_signal(rsi, current_price, moving_avg)
     print(f"Trade signal: {decision}")
-
-git add backend/decision_logic.py
-git commit -m "Add decision logic with test block"
-git push

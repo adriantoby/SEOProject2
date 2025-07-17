@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+from backend.logic import ask_gemini
 app = Flask(__name__)
 
 @app.route("/") # home page
@@ -19,7 +20,9 @@ def assistant():
     ai_answer = None
     if request.method == "POST":
         user_input = request.form.get("user_input")
-        ai_answer = f"(Demo) You asked: {user_input}"
+        if user_input:
+            ai_answer = ask_gemini(user_input)
+        print(f"(Demo) You asked: {user_input}")
     return render_template("assistant.html", ai_answer=ai_answer)
 
 

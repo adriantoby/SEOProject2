@@ -14,5 +14,16 @@ def about():
 def trade():
     return render_template("trade.html")
 
+@app.route("/assistant", methods=["GET", "POST"]) # GENAI assistant 
+def assistant():
+    ai_answer = None
+    if request.method == "POST":
+        user_input = request.form.get("user_input")
+        ai_answer = f"(Demo) You asked: {user_input}"
+    return render_template("assistant.html", ai_answer=ai_answer)
+
+
+
 if __name__ == "__main__":
     app.run(debug=True)
+    

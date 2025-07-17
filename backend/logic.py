@@ -67,3 +67,9 @@ current_price_portion = "GLOBAL_QUOTE&symbol=IBM&apikey=ALPHA_VANTAGE_API_KEY"
 # current_price = current_price_data["05. price"]
 # trading_date = current_price_data["07. latest trading day"]
 # print(f"{company}: {current_price} on {trading_date}")
+
+#def ask_gemini(question): Enter GENAI KEY and logic
+    '''genai.configure(api_key="YOUR_KEY")
+    model = genai.GenerativeModel("gemini-pro")
+    response = model.generate_content(question)
+    return response.text'''

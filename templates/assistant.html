@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartInvest – Ask Gemini</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <header>
+    <h1>SmartInvest</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/trade">Trade</a>
+      <a href="/assistant">Ask Gemini</a>
+    </nav>
+  </header>
+
+  <main>
+    <h2>Ask SmartInvest AI Assistant</h2>
+    <p>Type any question about investing or stocks, and Gemini will help explain.</p>
+    <form action="/assistant" method="POST">
+      <textarea name="user_input" placeholder="e.g. What does RSI mean?" required></textarea><br>
+      <button type="submit">Ask Gemini</button>
+    </form>
+
+    {% if ai_answer %}
+      <div class="answer-box">
+        <h3>AI Response:</h3>
+        <p>{{ ai_answer }}</p>
+      </div>
+    {% endif %}
+  </main>
+</body>
+</html>

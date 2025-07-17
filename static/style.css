@@ -7,6 +7,10 @@ body {
   color: #333;
 }
 
+textarea {
+  font-family: 'Arial', sans-serif;
+}
+
 /* Header */
 header {
   background-color: #222;

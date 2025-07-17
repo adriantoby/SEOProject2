@@ -16,7 +16,7 @@ class TrackedStock(Base):
     alerts = relationship("AlertHistory", back_populates="stock")
 
 class AlertHistory(Base):
-    __tablename__ = 'alert_histroy'
+    __tablename__ = 'alert_history'
 
     id = Column(Integer, primary_key=True)
     stock_id = Column(Integer, ForeignKey('tracked_stocks.id'))

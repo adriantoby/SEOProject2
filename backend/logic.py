@@ -32,7 +32,14 @@ def get_insider_transactions(symbol):
         else:
             decisions[1] += 1
 
-    return "BUY" if decisions[0] > decisions[1] else "SELL"
+    if decisions[0] > decisions[1]:
+        decision = "BUY"
+    elif decisions[1] > decisions[0]:
+        decision = "SELL"
+    else:
+        decision = "HOLD"
+    
+    return decision
 
 
 # alpha vantage (RSI, current_price, SMA)

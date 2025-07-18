@@ -164,6 +164,16 @@
                 <p class="ticker">{{ ticker }}</p>
                 <p class="decision">{{ decision }}</p>
         {% endif %}
+
+        {% if stocks %}
+        <h3>Previous Decisions:</h3>
+        <ul>
+            {% for s in stocks %}
+            <li>Symbol: {{ s.name }} | Alert: {{ s.alert }}</li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+
     </main>
 
 </body>

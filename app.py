@@ -17,15 +17,18 @@ def about():
 @app.route("/trade", methods=["GET", "POST"]) # trade page
 def trade():
     decision = None
+    ticker = None
+    stocks = None
     if request.method == "POST":
         ticker = request.form.get("ticker").upper()
         if ticker:
-            decision = process_stock(ticker)
-            # ticker = "FAKE COMPANY"
-            # decision = "INVALID SYMBOL"
-        print(f"(Demo) You asked to trade: {ticker}, we have decided to {decision}")
+            # decision = process_stock(ticker)
+            ticker = "FAKE COMPANY"
+            decision = "INVALID SYMBOL"
+            stocks = return_stocks()
+            print(f"(Demo) You asked to trade: {ticker}, we have decided to {decision}")
 
-    return render_template("trade.html", decision=decision, ticker=ticker)
+    return render_template("trade.html", decision=decision, ticker=ticker, stocks=stocks)
 
 @app.route("/assistant", methods=["GET", "POST"]) # GENAI assistant 
 def assistant():

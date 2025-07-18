@@ -5,7 +5,7 @@ SmartInvest is a simple, beginner‑friendly web application that helps you figu
 
 Technologies:
 - Python
-- HTML/CSS/JavaScript
+- HTML/CSS
 - Flask
 - SQLAlchemy
 - Finnhub API

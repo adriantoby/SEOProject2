@@ -7,6 +7,7 @@ Technologies:
 - Python
 - HTML/CSS
 - Flask
+- Jinja
 - SQLAlchemy
 - Finnhub API
 - Alpha Vantage API

@@ -17,9 +17,22 @@ def log_alert(stock_id, alert_type, price_at_alert):
     print(f"Alert logged: {alert_type} at ${price_at_alert} for stock ID {stock_id}")
     session.close()
 
+def return_stocks():
+    session = SessionLocal()
+    symbols = session.query(TrackedStock.symbol).all()
+    alerts = session.query(AlertHistory.alert_type).all()
+    session.close()
+
+    stocks = [{"symbol": s[0]} for s in symbols]
+    i = 0
+    for stock in stocks:
+        stock["alert"] = alerts[i][0]
+        i += 1
+
+    return stocks
+
 if __name__ == "__main__":
-    stock_id = add_stock("IBM")
-    log_alert(stock_id, "BUY", 139.5)
+    print(return_stocks())
 
 
 

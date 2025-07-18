@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request
 from backend.logic import ask_gemini
 from backend.decision_logic import process_stock
+from backend.test_db import return_stocks
 
 app = Flask(__name__)
 

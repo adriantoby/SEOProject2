@@ -73,6 +73,51 @@
             background: #eee;
             border-radius: 4px;
         }
+
+        .buy {
+            background-color: #d4edda;
+            color: #155724;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+        }
+
+        .sell {
+            background-color: #edd4d4;
+            color: #b10101;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+        }
+
+        .hold {
+            background-color: #fcffcd;
+            color: #f6c431;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+        }
+
+        .invalid {
+            background-color: #aeadad;
+            color: #604a4d;
+            padding: 1rem;
+            border-radius: 4px;
+            margin-top: 1rem;
+        }
+
+        .decision {
+            font-family: Arial, sans-serif;
+            font-size: 3rem;
+            font-weight: bold;
+        }
+
+        .ticker {
+            font-family: Arial, sans-serif;
+            font-size: 2rem;
+            font-weight: bold;
+            margin-top: 0.5rem;
+        }
     </style>
 </head>
 <body>
@@ -96,34 +141,28 @@
         </form>
 
         {% if decision == "BUY" %}
-            <div class="answer-box">
-                <h3>Decision:</h3>
-                <p>{{ decision }}</p>
-                <p>green</p>
+            <div class="buy answer-box">
+                <h3>Decision for:</h3>
+                <p class="ticker">{{ ticker }}</p>
+                <p class="decision">{{ decision }}</p>
             </div>
         {% elif decision == "SELL" %}
-            <div class="answer-box">
-                <h3>Decision:</h3>
-                <p>{{ decision }}</p>
-                <p>red</p>
+            <div class="sell answer-box">
+                <h3>Decision for:</h3>
+                <p class="ticker">{{ ticker }}</p>
+                <p class="decision">{{ decision }}</p>
             </div>
         {% elif decision == "HOLD" %}
-            <div class="answer-box">
-                <h3>Decision:</h3>
-                <p>{{ decision }}</p>
-                <p>yellow</p>
+            <div class="hold answer-box">
+                <h3>Decision for:</h3>
+                <p class="ticker">{{ ticker }}</p>
+                <p class="decision">{{ decision }}</p>
             </div>
-        {% else %}
-            <div class="answer-box">
-                <h3>Decision</h3>
-                <p>{{ decision }}</p>
-                <p>black</p>
-        {% endif %}
-
-        {% if chart_url %}
-            <div class="chart-placeholder">
-                <img src="{{ chart_url }}" alt="Stock Chart" style="width: 100%; height: auto;">
-            </div>
+        {% elif decision == "INVALID SYMBOL" %}
+            <div class="invalid answer-box">
+                <h3>Decision for:</h3>
+                <p class="ticker">{{ ticker }}</p>
+                <p class="decision">{{ decision }}</p>
         {% endif %}
     </main>
 

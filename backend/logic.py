@@ -55,6 +55,7 @@ def get_RSI(symbol):
     RSI_data = response.json()
     if not RSI_data:
         return None
+    print(RSI_data)
     RSI_info = RSI_data["Meta Data"]
     company = RSI_info["1: Symbol"]
     last_refreshed = RSI_info["3: Last Refreshed"]
@@ -112,5 +113,5 @@ def ask_gemini(question):
 
     return response.text
 
-# if __name__ == "__main__":
-#     print(ask_gemini("What is an RSI"))
+if __name__ == "__main__":
+    rsi = get_RSI("AAPL")

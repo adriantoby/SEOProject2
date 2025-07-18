@@ -23,8 +23,8 @@ def trade():
         ticker = request.form.get("ticker").upper()
         if ticker:
             # decision = process_stock(ticker)
-            ticker = "FAKE COMPANY"
-            decision = "INVALID SYMBOL"
+            ticker = "IBM"
+            decision = "BUY"
             stocks = return_stocks()
             print(f"(Demo) You asked to trade: {ticker}, we have decided to {decision}")
 

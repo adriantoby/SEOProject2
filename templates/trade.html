@@ -118,6 +118,25 @@
             font-weight: bold;
             margin-top: 0.5rem;
         }
+
+        .stocks-box {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: #f8f9fa;
+            border-radius: 4px;
+        }
+
+        .stock {
+            padding: 0.5rem;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+            align-items: center;
+        }
+
+        .stock-text {
+            font-size: 1.5rem;
+            color: #333;
+        }
     </style>
 </head>
 <body>
@@ -163,15 +182,18 @@
                 <h3>Decision for:</h3>
                 <p class="ticker">{{ ticker }}</p>
                 <p class="decision">{{ decision }}</p>
+            </div>
         {% endif %}
 
         {% if stocks %}
-        <h3>Previous Decisions:</h3>
-        <ul>
-            {% for s in stocks %}
-            <li>Symbol: {{ s.name }} | Alert: {{ s.alert }}</li>
-            {% endfor %}
-        </ul>
+        <div class="stocks-box">
+            <h3>Previous Decisions:</h3>
+                {% for s in stocks %}
+                <div class="stock">
+                    <p class="stock-text">{{ s.symbol }} | {{ s.alert }}</p>
+                </div>
+                {% endfor %}
+        </div>
         {% endif %}
 
     </main>

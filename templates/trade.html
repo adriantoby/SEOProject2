@@ -90,10 +90,41 @@
         <h2>Find the Best Time to Buy or Sell</h2>
         <p>Enter a stock ticker to see live buy/sell signals.</p>
 
-        <form action="/dashboard" method="GET">
+        <form action="trade" method="POST">
             <input type="text" name="ticker" placeholder="e.g. AAPL" required>
             <button type="submit">Check Now</button>
         </form>
+
+        {% if decision == "BUY" %}
+            <div class="answer-box">
+                <h3>Decision:</h3>
+                <p>{{ decision }}</p>
+                <p>green</p>
+            </div>
+        {% elif decision == "SELL" %}
+            <div class="answer-box">
+                <h3>Decision:</h3>
+                <p>{{ decision }}</p>
+                <p>red</p>
+            </div>
+        {% elif decision == "HOLD" %}
+            <div class="answer-box">
+                <h3>Decision:</h3>
+                <p>{{ decision }}</p>
+                <p>yellow</p>
+            </div>
+        {% else %}
+            <div class="answer-box">
+                <h3>Decision</h3>
+                <p>{{ decision }}</p>
+                <p>black</p>
+        {% endif %}
+
+        {% if chart_url %}
+            <div class="chart-placeholder">
+                <img src="{{ chart_url }}" alt="Stock Chart" style="width: 100%; height: auto;">
+            </div>
+        {% endif %}
     </main>
 
 </body>

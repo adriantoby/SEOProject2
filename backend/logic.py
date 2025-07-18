@@ -53,6 +53,8 @@ def get_RSI(symbol):
     response = requests.get(alpha_vantage_base_url + RSI_portion)
     # print(response.status_code)
     RSI_data = response.json()
+    if not RSI_data:
+        return None
     RSI_info = RSI_data["Meta Data"]
     company = RSI_info["1: Symbol"]
     last_refreshed = RSI_info["3: Last Refreshed"]

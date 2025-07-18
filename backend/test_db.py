@@ -1,4 +1,4 @@
-from database import TrackedStock, AlertHistory, SessionLocal
+from backend.database import TrackedStock, AlertHistory, SessionLocal
 
 def add_stock(symbol, target_buy=None, target_sell=None):
     session = SessionLocal()

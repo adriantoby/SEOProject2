@@ -1,5 +1,5 @@
-from logic import get_insider_transactions, get_RSI, get_SMA, get_current_price
-from test_db import add_stock, log_alert
+from backend.logic import get_insider_transactions, get_RSI, get_SMA, get_current_price
+from backend.test_db import add_stock, log_alert
 
 def get_trade_signal(rsi, current_price, moving_avg):
     if rsi < 30 and current_price < moving_avg:
@@ -27,6 +27,8 @@ def should_send_alert(current_price, last_alert_price, threshold=2.0):
 
 def process_stock(symbol):
     rsi = get_RSI(symbol)
+    if not rsi:
+        return "INVALID SYMBOL"
     current_price = get_current_price(symbol)
     moving_avg = get_SMA(symbol)
     decision = get_trade_signal(rsi, current_price, moving_avg)
@@ -53,6 +55,8 @@ def process_stock(symbol):
 
     stock_id = add_stock(symbol)
     log_alert(stock_id, final_decision, current_price)
+
+    return final_decision
 
 
 if __name__ == "__main__":

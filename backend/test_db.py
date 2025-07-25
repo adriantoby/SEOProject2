@@ -32,7 +32,11 @@ def return_stocks():
     return stocks
 
 if __name__ == "__main__":
-    print(return_stocks())
+    # Example usage
+    stock_id = add_stock("MGTX")
+    log_alert(stock_id, "HOLD", 125.0)
+    stocks = return_stocks()
+    print(stocks)
 
 
 

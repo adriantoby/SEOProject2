@@ -4,11 +4,9 @@ from google import genai
 from google.genai import types
 from dotenv import load_dotenv
 
-load_dotenv()
-
-
 # finnhub (insider transactions)
 def get_insider_transactions(symbol):
+    load_dotenv()
     finnhub_api_key = os.getenv("FINNHUB_API_KEY")
     finnhub_base_url = "https://finnhub.io/api/v1/"
     insider_url = finnhub_base_url + f"/stock/insider-transactions?symbol={symbol}"
@@ -46,7 +44,9 @@ def get_insider_transactions(symbol):
 
 # alpha vantage (RSI, current_price, SMA)
 def get_RSI(symbol):
+    load_dotenv()
     alpha_vantage_api_key = os.getenv("ALPHA_VANTAGE_API_KEY")
+    print(alpha_vantage_api_key)
     alpha_vantage_base_url = "https://www.alphavantage.co/query?function="
 
     RSI_portion = f'RSI&symbol={symbol}&interval=weekly&time_period=10&series_type=open&apikey=ALPHA_VANTAGE_API_KEY'
@@ -64,6 +64,7 @@ def get_RSI(symbol):
     return float(RSI)
 
 def get_SMA(symbol):
+    load_dotenv()
     alpha_vantage_api_key = os.getenv("ALPHA_VANTAGE_API_KEY")
     alpha_vantage_base_url = "https://www.alphavantage.co/query?function="
     SMA_portion = f"SMA&symbol={symbol}&interval=weekly&time_period=10&series_type=open&apikey=ALPHA_VANTAGE_API_KEY"
@@ -78,6 +79,7 @@ def get_SMA(symbol):
     return float(SMA)
 
 def get_current_price(symbol):
+    load_dotenv()
     alpha_vantage_api_key = os.getenv("ALPHA_VANTAGE_API_KEY")
     alpha_vantage_base_url = "https://www.alphavantage.co/query?function="
     current_price_portion = f"GLOBAL_QUOTE&symbol={symbol}&apikey=ALPHA_VANTAGE_API_KEY"
@@ -94,6 +96,7 @@ def get_current_price(symbol):
     return float(current_price)
 
 def ask_gemini(question):
+    load_dotenv()
     my_api_key = os.getenv('GENAI_API_KEY')
 
     client = genai.Client(

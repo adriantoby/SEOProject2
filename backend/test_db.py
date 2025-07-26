@@ -1,42 +1,75 @@
 from backend.database import TrackedStock, AlertHistory, SessionLocal
 
 def add_stock(symbol, target_buy=None, target_sell=None):
+    """
+    Adds a new stock to the TrackedStock table in the database.
+
+    Parameters:
+        symbol (str): Stock ticker symbol (e.g., 'AAPL').
+        target_buy (float, optional): User-defined price to buy the stock.
+        target_sell (float, optional): User-defined price to sell the stock.
+
+    Returns:
+        int: The database ID of the newly added stock.
+    """
     session = SessionLocal()
     stock = TrackedStock(symbol=symbol, target_buy=target_buy, target_sell=target_sell)
     session.add(stock)
     session.commit()
-    print(f"stock '{symbol}' added with ID {stock.id}")
+    stock_id = stock.id
     session.close()
-    return stock.id
+    return stock_id
 
 def log_alert(stock_id, alert_type, price_at_alert):
+    """
+    Logs an alert into the AlertHistory table.
+
+    Parameters:
+        stock_id (int): The ID of the stock (foreign key from TrackedStock).
+        alert_type (str): The type of alert ('BUY', 'SELL', or 'HOLD').
+        price_at_alert (float): The stock price at the time the alert was generated.
+
+    Returns:
+        None
+    """
     session = SessionLocal()
     alert = AlertHistory(stock_id=stock_id, alert_type=alert_type, price_at_alert=price_at_alert)
     session.add(alert)
     session.commit()
-    print(f"Alert logged: {alert_type} at ${price_at_alert} for stock ID {stock_id}")
     session.close()
 
 def return_stocks():
+    """
+    Retrieves all tracked stocks and their most recent alert type.
+
+    Returns:
+        list of dict: Each dictionary contains:
+            - 'symbol' (str): Stock ticker symbol.
+            - 'alert' (str): Most recent alert type or "No alerts" if none exist.
+    """
     session = SessionLocal()
-    symbols = session.query(TrackedStock.symbol).all()
-    alerts = session.query(AlertHistory.alert_type).all()
-    session.close()
-
-    stocks = [{"symbol": s[0]} for s in symbols]
-    i = 0
+    
+    stocks = session.query(TrackedStock).all()
+    
+    result = []
     for stock in stocks:
-        stock["alert"] = alerts[i][0]
-        i += 1
+        if stock.alerts:
+            latest_alert = session.query(AlertHistory)\
+                .filter(AlertHistory.stock_id == stock.id)\
+                .order_by(AlertHistory.timestamp.desc())\
+                .first()
+            alert_type = latest_alert.alert_type if latest_alert else "No alerts"
+        else:
+            alert_type = "No alerts"
+        
+        result.append({
+            "symbol": stock.symbol,
+            "alert": alert_type
+        })
+    
+    session.close()
+    return result
 
-    return stocks
-
-if __name__ == "__main__":
-    # Example usage
-    stock_id = add_stock("MGTX")
-    log_alert(stock_id, "HOLD", 125.0)
-    stocks = return_stocks()
-    print(stocks)
 
 
 

@@ -137,6 +137,19 @@
             font-size: 1.5rem;
             color: #333;
         }
+
+        .green-text {
+        color: green;
+        }
+
+        .red-text {
+            color: red;
+        }
+
+        .gray-text {
+            color: gray;
+        }
+
     </style>
 </head>
 <body>
@@ -161,22 +174,160 @@
 
         {% if decision == "BUY" %}
             <div class="buy answer-box">
+                {% if logo %}
+                    <img src = "{{ logo }}" style="height:120px">
+                {% endif %}
                 <h3>Decision for:</h3>
                 <p class="ticker">{{ ticker }}</p>
                 <p class="decision">{{ decision }}</p>
+                <h3>Trade Analysis Summary</h3>
+                <ul>
+                    <li><strong>Relative Strength Index (RSI):</strong> {{ explanation['rsi'] }}
+                        <br><small>An RSI of {{ explanation['rsi'] }} suggests the stock is 
+                        {% if explanation['rsi'] > 70 %}overbought (SELL)
+                        {% elif explanation['rsi'] < 30 %}oversold (BUY)
+                        {% else %}neutral (HOLD)
+                        {% endif %}.
+                        </small>
+                    </li>
+
+                    <li><strong>Current Price:</strong> ${{ explanation['Current Price'] }}</li>
+
+                    <li><strong>Moving Average:</strong> ${{ explanation['Moving Average'] }}
+                        <br><small>The current price is 
+                        {% if explanation['Current Price'] > explanation['Moving Average'] %}above
+                        {% else %}below
+                        {% endif %} the moving average — a 
+                        {% if explanation['Current Price'] > explanation['Moving Average'] %}bullish
+                        {% else %}bearish
+                        {% endif %} signal.
+                        </small>
+                    </li>
+
+                    <li><strong>Technical Signal:</strong> {{ explanation['tech_decision'] }}
+                        <br><small>Based on combined indicators, this suggests a {{ explanation['tech_decision'] | upper }} action.</small>
+                    </li>
+
+                    <li><strong>Insider Activity:</strong> {{ explanation['insider_decision'] }}
+                        <br><small>Insider trades suggest a {{ explanation['insider_decision'] | upper }} bias.</small>
+                    </li>
+                </ul>
+                <button type="button">Track it</button>
+                <button type="button">Skip it</button>
             </div>
         {% elif decision == "SELL" %}
             <div class="sell answer-box">
+                {% if logo %}
+                    <img src = "{{ logo }}" style="height:120px">
+                {% endif %}
                 <h3>Decision for:</h3>
                 <p class="ticker">{{ ticker }}</p>
                 <p class="decision">{{ decision }}</p>
+            
+                <h3>Trade Analysis Summary</h3>
+                <ul>
+                    <li><strong>Relative Strength Index (RSI):</strong> {{ explanation['rsi'] }}
+                        <br><small>An RSI of {{ explanation['rsi'] }} suggests the stock is 
+                        {% if explanation['rsi'] > 70 %}overbought (SELL)
+                        {% elif explanation['rsi'] < 30 %}oversold (BUY)
+                        {% else %}neutral (HOLD)
+                        {% endif %}.
+                        </small>
+                    </li>
+
+                    <li><strong>Current Price:</strong> ${{ explanation['Current Price'] }}</li>
+
+                    <li><strong>Moving Average:</strong> ${{ explanation['Moving Average'] }}
+                        <br><small>The current price is 
+                        {% if explanation['Current Price'] > explanation['Moving Average'] %}above
+                        {% else %}below
+                        {% endif %} the moving average — a 
+                        {% if explanation['Current Price'] > explanation['Moving Average'] %}bullish
+                        {% else %}bearish
+                        {% endif %} signal.
+                        </small>
+                    </li>
+
+                    <li><strong>Technical Signal:</strong> {{ explanation['tech_decision'] }}
+                        <br><small>Based on combined indicators, this suggests a {{ explanation['tech_decision'] | upper }} action.</small>
+                    </li>
+
+                    <li><strong>Insider Activity:</strong> {{ explanation['insider_decision'] }}
+                        <br><small>Insider trades suggest a {{ explanation['insider_decision'] | upper }} bias.</small>
+                    </li>
+                </ul>
+
+                <h4>💡 Final Decision:</h4>
+                <span class="
+                    {% if explanation['tech_decision'] == 'buy' %}green-text
+                    {% elif explanation['tech_decision'] == 'sell' %}red-text
+                    {% else %}gray-text
+                    {% endif %}
+                ">
+                    {{ explanation['tech_decision'] | upper }}
+                </span>
+                <!-- END ADD SECTION -->
+                
+                <button type="button">Track it</button>
+                <button type="button">Skip it</button>
             </div>
         {% elif decision == "HOLD" %}
-            <div class="hold answer-box">
-                <h3>Decision for:</h3>
-                <p class="ticker">{{ ticker }}</p>
-                <p class="decision">{{ decision }}</p>
-            </div>
+        <div class="sell answer-box">
+            {% if logo %}
+                <img src = "{{ logo }}" style="height:120px">
+            {% endif %}
+            <h3>Decision for:</h3>
+            <p class="ticker">{{ ticker }}</p>
+            <p class="decision">{{ decision }}</p>
+            
+            <!-- ADD THIS SECTION -->
+            <h3>Trade Analysis Summary</h3>
+            <ul>
+                <li><strong>Relative Strength Index (RSI):</strong> {{ explanation['rsi'] }}
+                    <br><small>An RSI of {{ explanation['rsi'] }} suggests the stock is 
+                    {% if explanation['rsi'] > 70 %}overbought (SELL)
+                    {% elif explanation['rsi'] < 30 %}oversold (BUY)
+                    {% else %}neutral (HOLD)
+                    {% endif %}.
+                    </small>
+                </li>
+
+                <li><strong>Current Price:</strong> ${{ explanation['Current Price'] }}</li>
+
+                <li><strong>Moving Average:</strong> ${{ explanation['Moving Average'] }}
+                    <br><small>The current price is 
+                    {% if explanation['Current Price'] > explanation['Moving Average'] %}above
+                    {% else %}below
+                    {% endif %} the moving average — a 
+                    {% if explanation['Current Price'] > explanation['Moving Average'] %}bullish
+                    {% else %}bearish
+                    {% endif %} signal.
+                    </small>
+                </li>
+
+                <li><strong>Technical Signal:</strong> {{ explanation['tech_decision'] }}
+                    <br><small>Based on combined indicators, this suggests a {{ explanation['tech_decision'] | upper }} action.</small>
+                </li>
+
+                <li><strong>Insider Activity:</strong> {{ explanation['insider_decision'] }}
+                    <br><small>Insider trades suggest a {{ explanation['insider_decision'] | upper }} bias.</small>
+                </li>
+            </ul>
+
+            <h4>💡 Final Decision:</h4>
+            <span class="
+                {% if explanation['tech_decision'] == 'buy' %}green-text
+                {% elif explanation['tech_decision'] == 'sell' %}red-text
+                {% else %}gray-text
+                {% endif %}
+            ">
+                {{ explanation['tech_decision'] | upper }}
+            </span>
+            <!-- END ADD SECTION -->
+            
+            <button type="button">Track it</button>
+            <button type="button">Skip it</button>
+        </div>
         {% elif decision == "INVALID SYMBOL" %}
             <div class="invalid answer-box">
                 <h3>Decision for:</h3>

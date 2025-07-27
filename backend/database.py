@@ -26,6 +26,13 @@ class AlertHistory(Base):
 
     stock = relationship("TrackedStock", back_populates="alerts")
 
+class AvailableStock(Base):
+    __tablename__ = 'available_stocks'
+
+    id = Column(Integer, primary_key=True)
+    symbol = Column(String, nullable=True)
+    company_name = Column(String, nullable=False)
+    
 # Database setup
 DATABASE_URL = "sqlite:///stocks.db"
 engine = create_engine(DATABASE_URL)

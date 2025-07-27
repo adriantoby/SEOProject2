@@ -1,4 +1,7 @@
-from backend.database import TrackedStock, AlertHistory, SessionLocal
+import os
+import requests
+from dotenv import load_dotenv
+from backend.database import TrackedStock, AlertHistory, AvailableStock, SessionLocal
 
 def add_stock(symbol, target_buy=None, target_sell=None):
     """
@@ -70,7 +73,43 @@ def return_stocks():
     session.close()
     return result
 
+def populate_available_stocks():
+    load_dotenv()
+    finnhub_api_key = os.getenv("FINNHUB_API_KEY")
+    finnhub_base_url = "https://finnhub.io/api/v1"
+    insider_url = finnhub_base_url + f"/stock/symbol?exchange=US&token={finnhub_api_key}"
+    headers = {
+        "X-Finnhub-Token": finnhub_api_key
+    }
 
+    response = requests.get(insider_url, headers=headers)
+    finnhub_data = response.json()
+    print(f"API returned {len(finnhub_data)} stocks")
+
+    session = SessionLocal()
+    
+    existing_symbols = set(symbol[0] for symbol in session.query(AvailableStock.symbol).all())
+    print(f"Found {len(existing_symbols)} existing stocks in database")
+    
+    new_stocks = []
+    for stock in finnhub_data:
+        symbol = stock["symbol"]
+        company = stock["description"]
+        
+        if symbol not in existing_symbols:
+            new_stocks.append(AvailableStock(symbol=symbol, company_name=company))
+    
+    
+    session.add_all(new_stocks)
+    session.commit()
+    session.close()
+    
+
+'''
+if __name__ == "__main__":
+    #just run this once, so the db file, can store all the names we need.
+    populate_available_stocks()
+'''
 
 
 # from database import SessionLocal, TrackedStock, AlertHistory

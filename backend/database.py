@@ -26,12 +26,25 @@ class AlertHistory(Base):
 
     stock = relationship("TrackedStock", back_populates="alerts")
 
+class User(Base):
+    __tablename__ = 'users'
+
+    id = Column(Integer, primary_key=True)
+    username = Column(String(20), unique=True, nullable=False)
+    email = Column(String(120), unique=True, nullable=False)
+    password = Column(String(128), nullable=False)
+
 # Database setup
 DATABASE_URL = "sqlite:///stocks.db"
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(bind=engine)
 
+USER_URL = "sqlite:///users.db"
+user_engine = create_engine(USER_URL)
+SessionUserLocal = sessionmaker(bind=user_engine)
+
 
 if __name__ == "__main__":
-    Base.metadata.create_all(bind=engine)
+    # Base.metadata.create_all(bind=engine)
+    Base.metadata.create_all(bind=user_engine)
     print("Tables created.")

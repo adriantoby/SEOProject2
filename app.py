@@ -3,7 +3,7 @@ from forms import RegistrationForm
 from flask_behind_proxy import FlaskBehindProxy
 from backend.logic import ask_gemini
 from backend.decision_logic import process_stock
-from backend.test_db import return_stocks
+from backend.test_db import return_stocks, add_user
 from dotenv import load_dotenv
 import os
 
@@ -52,6 +52,7 @@ def register():
     form = RegistrationForm()
     if form.validate_on_submit(): # checks if entries are valid
         flash(f'Account created for {form.username.data}!', 'success')
+        add_user(form.username.data, form.email.data, form.password.data)
         return redirect(url_for('home')) # if so - send to home page
     return render_template('register.html', title='Register', form=form)
             

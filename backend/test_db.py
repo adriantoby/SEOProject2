@@ -1,4 +1,13 @@
-from backend.database import TrackedStock, AlertHistory, SessionLocal
+from backend.database import TrackedStock, AlertHistory, SessionLocal, User
+
+def add_user(username, email, password):
+    session = SessionLocal()
+    user = User(username=username, email=email, password=password)
+    session.add(user)
+    session.commit()
+    print(f"User '{username}' added with ID {user.id}")
+    session.close()
+    return user.id
 
 def add_stock(symbol, target_buy=None, target_sell=None):
     session = SessionLocal()

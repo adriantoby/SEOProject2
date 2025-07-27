@@ -39,12 +39,12 @@ DATABASE_URL = "sqlite:///stocks.db"
 engine = create_engine(DATABASE_URL)
 SessionLocal = sessionmaker(bind=engine)
 
-USER_URL = "sqlite:///users.db"
-user_engine = create_engine(USER_URL)
-SessionUserLocal = sessionmaker(bind=user_engine)
+# USER_URL = "sqlite:///users.db"
+# user_engine = create_engine(USER_URL)
+# SessionUserLocal = sessionmaker(bind=user_engine)
 
 
 if __name__ == "__main__":
-    # Base.metadata.create_all(bind=engine)
-    Base.metadata.create_all(bind=user_engine)
+    Base.metadata.create_all(bind=engine)
+    # Base.metadata.create_all(bind=user_engine)
     print("Tables created.")

@@ -20,13 +20,14 @@ def trade():
     decision = None
     ticker = None
     stocks = None
+    logo = None
     explanation = None
     if request.method == "POST":
         ticker = request.form.get("ticker").upper()
         if ticker:
             decision, explanation = process_stock(ticker)
             stocks = return_stocks()
-    logo = get_company_logo(ticker)
+            logo = get_company_logo(ticker)
     return render_template("trade.html", decision=decision, ticker=ticker, stocks=stocks, logo=logo, explanation=explanation)
 
 @app.route("/assistant", methods=["GET", "POST"]) # GENAI assistant 

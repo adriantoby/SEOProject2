@@ -82,16 +82,25 @@ button {
   border-radius: 5px;
   text-decoration: none;
   transition: background 0.3s ease;
+  cursor: pointer;
 }
 
 button:hover {
   background: #218838;
 }
 
+/* Add this new rule for disabled button state */
+button:disabled {
+  background: #218838 !important;
+  color: #ffffff !important;
+  cursor: not-allowed;
+  opacity: 0.6;
+}
 
-
-
-
+button:disabled:hover {
+  background: #218838 !important;
+  opacity: 0.4; 
+}
 
 form {
   margin-top: 1.5rem;

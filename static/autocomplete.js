@@ -83,3 +83,16 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 });
+// blurs out button, if you haven't searched anything yet.
+document.addEventListener('DOMContentLoaded', function() {
+    const input = document.getElementById('stock-search');
+    const button = document.getElementById('check-btn');
+    
+    input.addEventListener('input', function() {
+        if (input.value.trim().length > 0) {
+            button.disabled = false;
+        } else {
+            button.disabled = true;
+        }
+    });
+});

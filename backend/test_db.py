@@ -73,6 +73,8 @@ def return_stocks():
     session.close()
     return result
 
+'''
+needed this method to run once only, and every once in a while when we need to update our records, to store new stocks.
 def populate_available_stocks():
     load_dotenv()
     finnhub_api_key = os.getenv("FINNHUB_API_KEY")
@@ -105,7 +107,6 @@ def populate_available_stocks():
     session.close()
     
 
-'''
 if __name__ == "__main__":
     #just run this once, so the db file, can store all the names we need.
     populate_available_stocks()

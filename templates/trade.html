@@ -25,7 +25,7 @@
                 <input type="text" name="ticker" id="stock-search" placeholder="e.g. AAPL" required>
                 <ul id="suggestions"></ul>
             </div>
-            <button type="submit">Check Now</button>
+            <button type="submit" id="check-btn" disabled>Check Now</button>
         </form>
 
         {% if decision == "BUY" %}
@@ -112,16 +112,6 @@
                         <br><small>Insider trades suggest a {{ explanation['insider_decision'] | upper }} bias.</small>
                     </li>
                 </ul>
-
-                <h4>💡 Final Decision:</h4>
-                <span class="
-                    {% if explanation['tech_decision'] == 'buy' %}green-text
-                    {% elif explanation['tech_decision'] == 'sell' %}red-text
-                    {% else %}gray-text
-                    {% endif %}
-                ">
-                    {{ explanation['tech_decision'] | upper }}
-                </span>
                 
                 <button type="button">Track it</button>
                 <button type="button">Skip it</button>

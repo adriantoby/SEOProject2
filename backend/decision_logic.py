@@ -84,9 +84,9 @@ def process_stock(symbol):
 
     if not rsi or not current_price:
         return "INVALID SYMBOL"
-    if rsi < 30 and current_price < moving_avg:
+    if rsi < 30 or current_price < moving_avg:
         tech_decision = 'BUY'
-    elif rsi > 70 and current_price > moving_avg:
+    elif rsi > 70 or current_price > moving_avg:
         tech_decision = 'SELL'
     else:
         tech_decision = 'HOLD'

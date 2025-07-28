@@ -1,6 +1,7 @@
-from flask import Flask, render_template, url_for, flash, redirect, request
+from flask import Flask, render_template, url_for, flash, redirect, request, session
 from forms import RegistrationForm
 from flask_behind_proxy import FlaskBehindProxy
+from supabase import create_client, Client
 from backend.logic import ask_gemini
 from backend.decision_logic import process_stock
 from backend.test_db import return_stocks, add_user
@@ -11,6 +12,10 @@ load_dotenv()
 app = Flask(__name__)
 proxied = FlaskBehindProxy(app)
 app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
+
+url = os.getenv("SUPABASE_URL")
+key = os.getenv("SUPABASE_KEY")
+supabase = create_client(url, key)
 
 @app.route("/") # home page
 @app.route("/home")

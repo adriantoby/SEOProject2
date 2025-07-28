@@ -1,5 +1,4 @@
 from flask import Flask, render_template, url_for, flash, redirect, request
-from forms import RegistrationForm
 from flask_behind_proxy import FlaskBehindProxy
 from supabase import create_client, Client
 from backend.logic import ask_gemini
@@ -16,18 +15,25 @@ app.config["SECRET_KEY"] = os.getenv("SECRET_KEY")
 url = os.getenv("SUPABASE_URL")
 key = os.getenv("SUPABASE_KEY")
 supabase = create_client(url, key)
+session = None
 
 @app.route("/") # home page
 @app.route("/home")
 def home():
+    if not session or not session["access_token"]:
+        return redirect(url_for('signup'))
     return render_template("home.html")
 
 @app.route("/about") # about page
 def about():
+    if not session or not session["access_token"]:
+        return redirect(url_for('signup'))
     return render_template("about.html")
 
 @app.route("/trade", methods=["GET", "POST"]) # trade page
 def trade():
+    if not session or not session["access_token"]:
+        return redirect(url_for('signup'))
     decision = None
     ticker = None
     stocks = None
@@ -44,6 +50,8 @@ def trade():
 
 @app.route("/assistant", methods=["GET", "POST"]) # GENAI assistant 
 def assistant():
+    if not session or not session["access_token"]:
+        return redirect(url_for('signup'))
     ai_answer = None
     if request.method == "POST":
         user_input = request.form.get("user_input")
@@ -53,7 +61,7 @@ def assistant():
     return render_template("assistant.html", ai_answer=ai_answer)
 
 @app.route("/signup", methods=['GET', 'POST'])
-def register():
+def signup():
     if request.method == "POST":
         username = request.form.get("username")
         email = request.form.get("email")
@@ -81,6 +89,8 @@ def login():
 
 @app.route("/logout", methods=['GET', 'POST'])
 def logout():
+    if not session or not session["access_token"]:
+        return redirect(url_for('signup'))
     if request.method == "POST":
         try:
             supabase.auth.sign_out()

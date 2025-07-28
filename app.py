@@ -40,9 +40,9 @@ def trade():
     if request.method == "POST":
         ticker = request.form.get("ticker").upper()
         if ticker:
-            # decision = process_stock(ticker)
-            ticker = "IBM"
-            decision = "BUY"
+            decision = process_stock(ticker)
+            # ticker = "IBM"
+            # decision = "BUY"
             stocks = return_stocks()
             print(f"(Demo) You asked to trade: {ticker}, we have decided to {decision}")
 

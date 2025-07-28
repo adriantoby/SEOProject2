@@ -104,6 +104,11 @@ def logout():
             print(f"Error during logout: {e}")
             return redirect(url_for('logout'))
     return render_template('logout.html')
+
+@app.route("/profile") #Profile Page
+def profile():
+    return render_template("profile.html")
+
             
 if __name__ == "__main__":
     app.run(debug=True)

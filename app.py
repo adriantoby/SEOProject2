@@ -52,7 +52,7 @@ def assistant():
         print(f"(Demo) You asked: {user_input}")
     return render_template("assistant.html", ai_answer=ai_answer)
 
-@app.route("/register", methods=['GET', 'POST'])
+@app.route("/signup", methods=['GET', 'POST'])
 def register():
     if request.method == "POST":
         username = request.form.get("username")
@@ -60,12 +60,35 @@ def register():
         password = request.form.get("password")
         try:
             user = supabase.auth.sign_up({"email": email, "password": password})
-            print("hi")
+            return redirect(url_for('login'))
+        except Exception as e:
+            print(f"Error during sign up: {e}")
+            return f"Error: {e}"
+    return render_template('signup.html')
+
+@app.route("/login", methods=['GET', 'POST'])
+def login():
+    if request.method == "POST":
+        email = request.form.get("email")
+        password = request.form.get("password")
+        try:
+            session = supabase.auth.sign_in_with_password({"email": email, "password": password})
             return redirect(url_for('home'))
         except Exception as e:
-            print(f"Error during registration: {e}")
+            print(f"Error during login: {e}")
             return f"Error: {e}"
-    return render_template('register.html')
+    return render_template('login.html')
+
+@app.route("/logout", methods=['GET', 'POST'])
+def logout():
+    if request.method == "POST":
+        try:
+            supabase.auth.sign_out()
+            return redirect(url_for('login'))
+        except Exception as e:
+            print(f"Error during logout: {e}")
+            return f"Error: {e}"
+    return render_template('logout.html')
             
 if __name__ == "__main__":
     app.run(debug=True)

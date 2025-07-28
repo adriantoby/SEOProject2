@@ -68,6 +68,7 @@ def signup():
         password = request.form.get("password")
         try:
             user = supabase.auth.sign_up({"email": email, "password": password})
+            add_user(user["user"]["id"], username, email)
             return redirect(url_for('login'))
         except Exception as e:
             print(f"Error during sign up: {e}")

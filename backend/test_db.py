@@ -1,8 +1,13 @@
 from backend.database import TrackedStock, AlertHistory, SessionLocal, User
+import uuid
 
-def add_user(username, email, password):
+def add_user(supabase_id, email, username):
     session = SessionLocal()
-    user = User(username=username, email=email, password=password)
+    user = User(
+        id=uuid.UUID(supabase_id),
+        email=email,
+        username=username,
+    )
     session.add(user)
     session.commit()
     print(f"User '{username}' added with ID {user.id}")

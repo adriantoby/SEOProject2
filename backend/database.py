@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey, DateTime, create_engine
+from sqlalchemy import Column, Integer, String, Table, Float, ForeignKey, DateTime, create_engine
+from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import relationship, declarative_base, sessionmaker
 import datetime
 
@@ -26,13 +27,27 @@ class AlertHistory(Base):
 
     stock = relationship("TrackedStock", back_populates="alerts")
 
+followers_association = Table(
+    'followers',
+    Base.metadata,
+    Column('follower_id', UUID(as_uuid=True), ForeignKey('users.id'), primary_key=True),
+    Column('following_id', UUID(as_uuid=True), ForeignKey('users.id'), primary_key=True)
+)
+
 class User(Base):
     __tablename__ = 'users'
 
-    id = Column(Integer, primary_key=True)
-    username = Column(String(20), unique=True, nullable=False)
-    email = Column(String(120), unique=True, nullable=False)
-    password = Column(String(128), nullable=False)
+    id = Column(UUID(as_uuid=True), primary_key=True)
+    username = Column(String, unique=True, nullable=False)
+    email = Column(String, unique=True, nullable=False)
+
+    following = relationship(
+        'User',
+        secondary=followers_association,
+        primaryjoin=id==followers_association.c.follower_id,
+        secondaryjoin=id==followers_association.c.following_id,
+        backref='followers'
+    )
 
 # Database setup
 DATABASE_URL = "sqlite:///stocks.db"

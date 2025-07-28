@@ -20,19 +20,19 @@ session = None
 @app.route("/") # home page
 @app.route("/home")
 def home():
-    if not session or not session["access_token"]:
+    if not session or not session.access_token:
         return redirect(url_for('signup'))
     return render_template("home.html")
 
 @app.route("/about") # about page
 def about():
-    if not session or not session["access_token"]:
+    if not session or not session.access_token:
         return redirect(url_for('signup'))
     return render_template("about.html")
 
 @app.route("/trade", methods=["GET", "POST"]) # trade page
 def trade():
-    if not session or not session["access_token"]:
+    if not session or not session.access_token:
         return redirect(url_for('signup'))
     decision = None
     ticker = None
@@ -50,7 +50,7 @@ def trade():
 
 @app.route("/assistant", methods=["GET", "POST"]) # GENAI assistant 
 def assistant():
-    if not session or not session["access_token"]:
+    if not session or not session.access_token:
         return redirect(url_for('signup'))
     ai_answer = None
     if request.method == "POST":
@@ -80,7 +80,10 @@ def login():
         email = request.form.get("email")
         password = request.form.get("password")
         try:
-            session = supabase.auth.sign_in_with_password({"email": email, "password": password})
+            global session
+            response = supabase.auth.sign_in_with_password({"email": email, "password": password})
+            session = response.session
+            print(session)
             return redirect(url_for('home'))
         except Exception as e:
             print(f"Error during login: {e}")
@@ -89,8 +92,8 @@ def login():
 
 @app.route("/logout", methods=['GET', 'POST'])
 def logout():
-    if not session or not session["access_token"]:
-        return redirect(url_for('signup'))
+    # if not session or not session.access_token:
+    #     return redirect(url_for('signup'))
     if request.method == "POST":
         try:
             supabase.auth.sign_out()

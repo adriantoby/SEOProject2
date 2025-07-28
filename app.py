@@ -71,7 +71,7 @@ def signup():
             return redirect(url_for('login'))
         except Exception as e:
             print(f"Error during sign up: {e}")
-            return f"Error: {e}"
+            return redirect(url_for('signup'))
     return render_template('signup.html')
 
 @app.route("/login", methods=['GET', 'POST'])
@@ -87,7 +87,7 @@ def login():
             return redirect(url_for('home'))
         except Exception as e:
             print(f"Error during login: {e}")
-            return f"Error: {e}"
+            return redirect(url_for('login'))
     return render_template('login.html')
 
 @app.route("/logout", methods=['GET', 'POST'])
@@ -97,10 +97,12 @@ def logout():
     if request.method == "POST":
         try:
             supabase.auth.sign_out()
+            global session
+            session = None
             return redirect(url_for('login'))
         except Exception as e:
             print(f"Error during logout: {e}")
-            return f"Error: {e}"
+            return redirect(url_for('logout'))
     return render_template('logout.html')
             
 if __name__ == "__main__":

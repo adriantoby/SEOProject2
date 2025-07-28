@@ -39,6 +39,10 @@ def assistant():
             ai_answer = ask_gemini(user_input)
         print(f"(Demo) You asked: {user_input}")
     return render_template("assistant.html", ai_answer=ai_answer)
+
+@app.route("/profile") #Profile Page
+def profile():
+    return render_template("profile.html")
             
 if __name__ == "__main__":
     app.run(debug=True)

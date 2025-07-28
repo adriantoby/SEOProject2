@@ -1,7 +1,8 @@
 import os
 import requests
-from google import genai
-from google.genai import types
+import google.generativeai as genai
+#from google import genai
+#from google.genai import types
 from dotenv import load_dotenv
 
 # finnhub (insider transactions)

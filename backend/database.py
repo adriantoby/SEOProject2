@@ -11,6 +11,7 @@ class TrackedStock(Base):
     symbol = Column(String, nullable=False)
     target_buy = Column(Float, nullable=True)
     target_sell = Column(Float, nullable=True)
+    uid = Column(String, nullable=True)
     created_at = Column(DateTime, default=datetime.datetime.utcnow)
 
     alerts = relationship("AlertHistory", back_populates="stock")
@@ -20,8 +21,9 @@ class AlertHistory(Base):
 
     id = Column(Integer, primary_key=True)
     stock_id = Column(Integer, ForeignKey('tracked_stocks.id'))
-    alert_type = Column(String) # "BUY ALERT" or "SELL ALERT"
-    price_at_alert = Column(Float)
+    alert_type = Column(String, nullable=True) # "BUY ALERT" or "SELL ALERT"
+    price_at_alert = Column(Float, nullable=True)
+    uid = Column(String, nullable=True)
     timestamp = Column(DateTime, default=datetime.datetime.utcnow)
 
     stock = relationship("TrackedStock", back_populates="alerts")

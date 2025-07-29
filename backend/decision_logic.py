@@ -25,7 +25,7 @@ def should_send_alert(current_price, last_alert_price, threshold=2.0):
     return abs(current_price - last_alert_price) >= threshold
 
 
-def process_stock(symbol):
+def process_stock(symbol, uid):
     rsi = get_RSI(symbol)
     if not rsi:
         return "INVALID SYMBOL"
@@ -53,8 +53,8 @@ def process_stock(symbol):
     print(f"Insider Decision: {insider_decision}")
     print(final_decision)
 
-    stock_id = add_stock(symbol)
-    log_alert(stock_id, final_decision, current_price)
+    stock_id = add_stock(symbol, uid=uid)
+    log_alert(stock_id, final_decision, current_price, uid=uid)
 
     return final_decision
 

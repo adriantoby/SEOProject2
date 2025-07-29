@@ -40,10 +40,11 @@ def trade():
     if request.method == "POST":
         ticker = request.form.get("ticker").upper()
         if ticker:
-            decision = process_stock(ticker)
+            uid = supabase.auth.get_user().user.id
+            decision = process_stock(ticker, uid)
             # ticker = "IBM"
             # decision = "BUY"
-            stocks = return_stocks()
+            stocks = return_stocks(uid)
             print(f"(Demo) You asked to trade: {ticker}, we have decided to {decision}")
 
     return render_template("trade.html", decision=decision, ticker=ticker, stocks=stocks)

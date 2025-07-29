@@ -2,6 +2,7 @@
 <html>
   <head>
     <link rel="stylesheet" href="static/style.css" type="text/css">
+    <title>Login | SmartInvest</title>
   </head>
   <body>
     <header>
@@ -12,17 +13,26 @@
         <a href="assistant">Ask Gemini</a>
       </nav> -->
     </header>
-    <h1>Login Page</h1>
-    <form method="post">
-      <label for="email">Email:</label>
-      <input type="email" id="email" name="email" required>
-      <br>
-      <label for="password">Password:</label>
-      <input type="password" id="password" name="password" required>
-      <br>
-      <button type="submit">Log in</button>
-    </form>
-    <h2>Need to sign up?</h2>
-      <a href="signup">Sign up here</a>
+
+    <main>
+      <section class="content-section">
+        <h2>Login</h2>
+        <form method="post">
+          <div class="form-group">
+            <label class="form-control-label" for="email">Email:</label>
+            <input class="form-control" type="email" id="email" name="email" required>
+          </div>
+
+          <div class="form-group">
+            <label class="form-control-label" for="password">Password:</label>
+            <input class="form-control" type="password" id="password" name="password" required>
+          </div>
+
+          <button class="btn" type="submit">Log In</button>
+        </form>
+
+        <p style="margin-top: 1rem;">Don't have an account? <a href="signup">Sign up here</a></p>
+      </section>
+    </main>
   </body>
 </html>

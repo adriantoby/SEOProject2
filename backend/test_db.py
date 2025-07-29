@@ -12,7 +12,7 @@ def add_user(username, email, password):
     session.close()
     return user.id
 
-def add_stock(symbol, target_buy=None, target_sell=None):
+def add_stock(symbol, target_buy=None, target_sell=None, uid=None):
     """
     Adds a new stock to the TrackedStock table in the database.
 
@@ -25,14 +25,14 @@ def add_stock(symbol, target_buy=None, target_sell=None):
         int: The database ID of the newly added stock.
     """
     session = SessionLocal()
-    stock = TrackedStock(symbol=symbol, target_buy=target_buy, target_sell=target_sell)
+    stock = TrackedStock(symbol=symbol, target_buy=target_buy, target_sell=target_sell, uid=uid)
     session.add(stock)
     session.commit()
     stock_id = stock.id
     session.close()
     return stock_id
 
-def log_alert(stock_id, alert_type, price_at_alert):
+def log_alert(stock_id, alert_type=None, price_at_alert=None, uid=None):
     """
     Logs an alert into the AlertHistory table.
 
@@ -45,7 +45,7 @@ def log_alert(stock_id, alert_type, price_at_alert):
         None
     """
     session = SessionLocal()
-    alert = AlertHistory(stock_id=stock_id, alert_type=alert_type, price_at_alert=price_at_alert)
+    alert = AlertHistory(stock_id=stock_id, alert_type=alert_type, price_at_alert=price_at_alert, uid=uid)
     session.add(alert)
     session.commit()
     session.close()
@@ -61,7 +61,7 @@ def return_stocks():
     """
     session = SessionLocal()
     
-    stocks = session.query(TrackedStock).all()
+    stocks = session.query(TrackedStock).filter(TrackedStock.uid == uid).all()
     
     result = []
     for stock in stocks:

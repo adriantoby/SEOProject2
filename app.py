@@ -46,12 +46,12 @@ def get_all_stocks():
     session.close()
     
     stock_list = [
-        {
+        { 
             "symbol": stock.symbol,
             "name": stock.company_name
-        }
-        for stock in stocks
-    ]
+        } 
+        for stock in stocks 
+    ] 
     
     return jsonify(stock_list) #need this or you get a weird 500 error, its needed to convert into a valid json response object      
 if __name__ == "__main__":

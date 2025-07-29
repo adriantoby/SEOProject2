@@ -91,7 +91,8 @@ document.addEventListener('DOMContentLoaded', function() {
     input.addEventListener('input', function() {
         if (input.value.trim().length > 0) {
             button.disabled = false;
-        } else {
+        } 
+        else {
             button.disabled = true;
         }
     });

@@ -75,6 +75,7 @@ def get_RSI(symbol):
     print(RSI_data)
     print("----------------------------")
     '''
+    print(RSI_data)
     if not RSI_data:
         return None
     RSI_info = RSI_data["Meta Data"]

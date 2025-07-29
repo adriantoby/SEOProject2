@@ -60,7 +60,7 @@ def should_send_alert(current_price, last_alert_price, threshold=2.0):
     return abs(current_price - last_alert_price) >= threshold
 
 
-def process_stock(symbol):
+def process_stock(symbol, uid):
     """
     Combines technical indicators and insider transactions to generate a final trading decision.
 
@@ -108,8 +108,8 @@ def process_stock(symbol):
         "insider_decision": insider_decision
     }
 
-    stock_id = add_stock(symbol)
-    log_alert(stock_id, final_decision, current_price)
+    stock_id = add_stock(symbol, uid=uid)
+    log_alert(stock_id, final_decision, current_price, uid=uid)
 
     return final_decision, explanation
 

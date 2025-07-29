@@ -34,6 +34,13 @@ class User(Base):
     email = Column(String(120), unique=True, nullable=False)
     password = Column(String(128), nullable=False)
 
+class AvailableStock(Base):
+    __tablename__ = 'available_stocks'
+
+    id = Column(Integer, primary_key=True)
+    symbol = Column(String, nullable=True)
+    company_name = Column(String, nullable=False)
+    
 # Database setup
 DATABASE_URL = "sqlite:///stocks.db"
 engine = create_engine(DATABASE_URL)

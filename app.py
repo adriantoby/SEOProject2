@@ -1,11 +1,13 @@
-from flask import Flask, render_template, url_for, flash, redirect, request
+from flask import Flask, render_template, url_for, flash, redirect, request, jsonify
 from flask_behind_proxy import FlaskBehindProxy
 from supabase import create_client, Client
-from backend.logic import ask_gemini
+from backend.logic import ask_gemini, get_company_logo
 from backend.decision_logic import process_stock
 from backend.test_db import return_stocks, add_user
+from backend.database import AvailableStock, SessionLocal
 from dotenv import load_dotenv
 import os
+
 
 load_dotenv()
 app = Flask(__name__)
@@ -37,16 +39,15 @@ def trade():
     decision = None
     ticker = None
     stocks = None
+    logo = None
+    explanation = None
     if request.method == "POST":
         ticker = request.form.get("ticker").upper()
         if ticker:
-            decision = process_stock(ticker)
-            # ticker = "IBM"
-            # decision = "BUY"
+            decision, explanation = process_stock(ticker)
             stocks = return_stocks()
-            print(f"(Demo) You asked to trade: {ticker}, we have decided to {decision}")
-
-    return render_template("trade.html", decision=decision, ticker=ticker, stocks=stocks)
+            logo = get_company_logo(ticker)
+    return render_template("trade.html", decision=decision, ticker=ticker, stocks=stocks, logo=logo, explanation=explanation)
 
 @app.route("/assistant", methods=["GET", "POST"]) # GENAI assistant 
 def assistant():
@@ -57,7 +58,6 @@ def assistant():
         user_input = request.form.get("user_input")
         if user_input:
             ai_answer = ask_gemini(user_input)
-        print(f"(Demo) You asked: {user_input}")
     return render_template("assistant.html", ai_answer=ai_answer)
 
 @app.route("/signup", methods=['GET', 'POST'])
@@ -109,7 +109,21 @@ def logout():
 def profile():
     return render_template("profile.html")
 
-            
+@app.route("/api/all-stocks")   
+def get_all_stocks():
+    session = SessionLocal()
+    stocks = session.query(AvailableStock).all() #gets all records(rows) from the database
+    session.close()
+    
+    stock_list = [
+        { 
+            "symbol": stock.symbol,
+            "name": stock.company_name
+        } 
+        for stock in stocks 
+    ] 
+    
+    return jsonify(stock_list) #need this or you get a weird 500 error, its needed to convert into a valid json response object      
 if __name__ == "__main__":
     app.run(debug=True)
     

@@ -139,6 +139,7 @@ button:hover {
   cursor: pointer;
   width: 100%;
   transition: background-color 0.3s ease;
+}
 
 /* Add this new rule for disabled button state */
 button:disabled {
@@ -195,14 +196,7 @@ input[type="text"] {
   display: block;
 }
 
-.suggestion-item {input[type="text"] {
-  padding: 0.5rem;
-  font-size: 1rem;
-  width: 200px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
+.suggestion-item {
   padding: 0.75rem;
   cursor: pointer;
   border-bottom: 1px solid #eee;
@@ -234,7 +228,7 @@ input[type="text"] {
 
 .buy.answer-box {
   background-color: #d4edda;
-  color: white
+  color: white;
 }
 
 .sell {
@@ -247,7 +241,7 @@ input[type="text"] {
 
 .sell.answer-box {
   background-color: #b10101;
-  color: white
+  color: white;
 }
 
 .hold {
@@ -260,7 +254,7 @@ input[type="text"] {
 
 .hold.answer-box {
   background-color: #fcffcd;
-  color: white
+  color: white;
 }
 
 .invalid {

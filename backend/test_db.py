@@ -50,7 +50,7 @@ def log_alert(stock_id, alert_type=None, price_at_alert=None, uid=None):
     session.commit()
     session.close()
 
-def return_stocks():
+def return_stocks(uid):
     """
     Retrieves all tracked stocks and their most recent alert type.
 

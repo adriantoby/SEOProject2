@@ -1,5 +1,5 @@
 from backend.logic import get_insider_transactions, get_RSI, get_SMA, get_current_price, get_company_logo
-from backend.test_db import add_stock, log_alert
+from backend.test_db import add_stock, log_alert, get_or_create_stock
 
 '''
 #not being used anymore as the final decision maker for the trade signal.
@@ -60,6 +60,58 @@ def should_send_alert(current_price, last_alert_price, threshold=2.0):
     return abs(current_price - last_alert_price) >= threshold
 
 
+def analyze_stock(symbol):
+    """
+    Analyzes a stock without adding it to the database or tracking it.
+    
+    - Uses RSI, current price, and SMA to determine a technical decision.
+    - Retrieves insider transaction data for a separate decision.
+    - Merges both using rule-based logic.
+    - Does NOT add stock to database or log alerts.
+
+    Parameters:
+        symbol (str): Stock ticker symbol (e.g., 'AAPL').
+
+    Returns:
+        tuple:
+            - str: Final decision ("BUY", "SELL", "HOLD", or "INVALID SYMBOL").
+            - dict: Explanation including RSI, current price, SMA, and both decisions.
+    """
+    rsi = get_RSI(symbol)
+    current_price = get_current_price(symbol)
+    moving_avg = get_SMA(symbol)
+    insider_decision = get_insider_transactions(symbol)
+
+    if not rsi or not current_price:
+        return "INVALID SYMBOL", {}
+    
+    if rsi < 30 or current_price < moving_avg:
+        tech_decision = 'BUY'
+    elif rsi > 70 or current_price > moving_avg:
+        tech_decision = 'SELL'
+    else:
+        tech_decision = 'HOLD'
+    
+    if tech_decision == insider_decision:
+        final_decision = tech_decision
+    elif tech_decision == 'HOLD':
+        final_decision = insider_decision
+    elif insider_decision == 'HOLD':
+        final_decision = tech_decision
+    else:
+        final_decision = 'HOLD'
+
+    explanation = {
+        "rsi": rsi,
+        "Current Price": current_price,
+        "Moving Average": moving_avg,
+        "tech_decision": tech_decision,
+        "insider_decision": insider_decision
+    }
+
+    return final_decision, explanation
+
+
 def process_stock(symbol, uid):
     """
     Combines technical indicators and insider transactions to generate a final trading decision.
@@ -108,7 +160,7 @@ def process_stock(symbol, uid):
         "insider_decision": insider_decision
     }
 
-    stock_id = add_stock(symbol, uid=uid)
+    stock_id = get_or_create_stock(symbol, uid)
     log_alert(stock_id, final_decision, current_price, uid=uid)
 
     return final_decision, explanation

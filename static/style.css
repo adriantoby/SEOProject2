@@ -5,6 +5,9 @@ body {
   padding: 0;
   background: linear-gradient(to right, #f4f4f4, #e9ecef);
   color: #333;
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
 }
 
 textarea {
@@ -33,6 +36,7 @@ nav a {
 }
 
 /* Main container */
+/* Main container */
 main {
   text-align: center;
   padding: 4rem 2rem;
@@ -43,6 +47,25 @@ main {
   box-shadow: 0 0 15px rgba(0,0,0,0.1);
 }
 
+main.signup-main {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 4rem 2rem;
+  min-height: calc(100vh - 200px);
+  margin: 3rem auto;
+  border-radius: 10px;
+}
+
+main.login-main {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 4rem 2rem;
+  min-height: calc(100vh - 200px);
+  margin: 3rem auto;
+  border-radius: 10px;
+}
 /* Headline */
 main h2 {
   font-size: 2rem;
@@ -163,6 +186,29 @@ form {
   position: relative;
   display: inline-block;
   margin-right: 0.5rem;
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 2rem;
+  background-color: #222;
+  color: #fff;
+  border-top: 1px solid #333;
+}
+
+footer p {
+  margin: 0;
+  font-size: 0.9rem;
+}
+
+input[type="text"].form-control {
+  width: 100%;
+  padding: 10px;
+  font-size: 1rem;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  box-sizing: border-box;
 }
 
 input[type="text"] {
@@ -309,3 +355,163 @@ input[type="text"] {
   color: gray;
 }
 
+.stock-cards {
+      margin-top: 2rem;
+    }
+    
+.stock-card {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 1.5rem;
+  margin-bottom: 1rem;
+  border-left: 4px solid #28a745;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stock-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+}
+
+.stock-card.buy {
+  border-left-color: #28a745;
+}
+
+.stock-card.sell {
+  border-left-color: #dc3545;
+}
+
+.stock-card.hold {
+  border-left-color: #ffc107;
+}
+
+.stock-info {
+  display: flex;
+  align-items: center;
+  flex: 1;
+}
+
+.stock-logo {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  margin-right: 1rem;
+  object-fit: contain;
+  background: #f8f9fa;
+  padding: 5px;
+}
+
+.stock-logo-placeholder {
+  width: 50px;
+  height: 50px;
+  border-radius: 8px;
+  margin-right: 1rem;
+  background: #e9ecef;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: #6c757d;
+  font-size: 0.8rem;
+}
+
+.stock-details {
+  flex: 1;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+  gap: 1rem;
+  align-items: center;
+}
+
+.stock-detail {
+  text-align: center;
+}
+
+.stock-detail .label {
+  font-size: 0.8rem;
+  color: #6c757d;
+  margin-bottom: 0.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.stock-detail .value {
+  font-size: 1rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.stock-detail .symbol {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+.stock-detail .price {
+  font-size: 1.1rem;
+  color: #28a745;
+}
+
+.stock-detail .recommendation.buy {
+  color: #28a745;
+}
+
+.stock-detail .recommendation.sell {
+  color: #dc3545;
+}
+
+.stock-detail .recommendation.hold {
+  color: #ffc107;
+}
+
+.untrack-btn {
+  background: #dc3545;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-left: 1rem;
+  transition: background 0.3s ease;
+}
+
+.untrack-btn:hover {
+  background: #c82333;
+}
+
+.no-stocks {
+  text-align: center;
+  color: #6c757d;
+  font-style: italic;
+  padding: 2rem;
+  background: #f8f9fa;
+  border-radius: 10px;
+}
+
+/* Flash messages */
+.flash-messages {
+  margin-bottom: 1rem;
+}
+
+.flash-message {
+  padding: 0.75rem 1rem;
+  margin-bottom: 0.5rem;
+  border-radius: 5px;
+}
+
+.flash-message.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
+}
+
+.flash-message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
+}

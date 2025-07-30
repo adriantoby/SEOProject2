@@ -19,42 +19,101 @@
   </header>
 
   <main>
+    <!-- Flash Messages -->
+    <div class="flash-messages">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="flash-message {{ category }}">{{ message }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+    </div>
+
     <section class="profile-info">
       <h2>Welcome, {{ username }}</h2>
       <p><strong>Email:</strong> {{ email }}</p>
       <p><strong>Member since:</strong> {{ member_since }}</p>
     </section>
 
-    <section class="watchlist">
+    <section class="stock-cards">
       <h3>Your Watchlist</h3>
-      <table>
-        <thead>
-          <tr>
-            <th>Symbol</th>
-            <th>Recommendation</th>
-            <th>Last Checked</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for stock in watchlist %}
-          <tr>
-            <td>{{ stock.symbol }}</td>
-            <td>{{ stock.recommendation }}</td>
-            <td>{{ stock.last_checked }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      <button onclick="location.reload()">Refresh Recommendations</button>
-    </section>
-
-    <section class="activity-log">
-      <h3>Recent Activity</h3>
-      <ul>
-        {% for activity in recent_activity %}
-          <li>{{ activity }}</li>
+      {% if watchlist %}
+        {% for stock in watchlist %}
+          <div class="stock-card {{ stock.recommendation.lower() }}">
+            <div class="stock-info">
+              {% if stock.company_logo %}
+                <img src="{{ stock.company_logo }}" alt="{{ stock.symbol }} logo" class="stock-logo">
+              {% else %}
+                <div class="stock-logo-placeholder">{{ stock.symbol[:2] }}</div>
+              {% endif %}
+              
+              <div class="stock-details">
+                <div class="stock-detail">
+                  <div class="label">Symbol</div>
+                  <div class="value symbol">{{ stock.symbol }}</div>
+                </div>
+                
+                <div class="stock-detail">
+                  <div class="label">Current Price</div>
+                  <div class="value price">
+                    {% if stock.current_price %}
+                      ${{ "%.2f"|format(stock.current_price) }}
+                    {% else %}
+                      N/A
+                    {% endif %}
+                  </div>
+                </div>
+                
+                <div class="stock-detail">
+                  <div class="label">Recommendation</div>
+                  <div class="value recommendation {{ stock.recommendation.lower() }}">
+                    {{ stock.recommendation }}
+                  </div>
+                </div>
+                
+                <div class="stock-detail">
+                  <div class="label">RSI</div>
+                  <div class="value">
+                    {% if stock.rsi %}
+                      {{ stock.rsi }}
+                    {% else %}
+                      N/A
+                    {% endif %}
+                  </div>
+                </div>
+                
+                <div class="stock-detail">
+                  <div class="label">SMA</div>
+                  <div class="value">
+                    {% if stock.sma %}
+                      ${{ "%.2f"|format(stock.sma) }}
+                    {% else %}
+                      N/A
+                    {% endif %}
+                  </div>
+                </div>
+                
+                <div class="stock-detail">
+                  <div class="label">Tracking Since</div>
+                  <div class="value">{{ stock.date_started }}</div>
+                </div>
+              </div>
+            </div>
+            
+            <form method="POST" action="/untrack-stock" style="display: inline;">
+              <input type="hidden" name="stock_id" value="{{ stock.id }}">
+              <button type="submit" class="untrack-btn" onclick="return confirm('Are you sure you want to remove {{ stock.symbol }} from your watchlist?')">
+                Remove
+              </button>
+            </form>
+          </div>
         {% endfor %}
-      </ul>
+      {% else %}
+        <div class="no-stocks">
+          <p>No stocks in your watchlist yet. Visit the <a href="trade">Trade</a> page to start tracking stocks!</p>
+        </div>
+      {% endif %}
     </section>
   </main>
 

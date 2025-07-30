@@ -32,6 +32,34 @@ def add_stock(symbol, target_buy=None, target_sell=None, uid=None):
     session.close()
     return stock_id
 
+def get_or_create_stock(symbol, uid):
+    """
+    Gets existing tracked stock or creates a new one if it doesn't exist.
+    
+    Parameters:
+        symbol (str): Stock ticker symbol
+        uid (str): User ID
+        
+    Returns:
+        int: Stock ID
+    """
+    session = SessionLocal()
+    
+    # Check if stock is already being tracked by this user
+    existing_stock = session.query(TrackedStock).filter(
+        TrackedStock.symbol == symbol,
+        TrackedStock.uid == uid
+    ).first()
+    
+    if existing_stock:
+        stock_id = existing_stock.id
+    else:
+        # Create new tracked stock only if it doesn't exist
+        stock_id = add_stock(symbol, uid=uid)
+    
+    session.close()
+    return stock_id
+
 def log_alert(stock_id, alert_type=None, price_at_alert=None, uid=None):
     """
     Logs an alert into the AlertHistory table.
@@ -50,7 +78,7 @@ def log_alert(stock_id, alert_type=None, price_at_alert=None, uid=None):
     session.commit()
     session.close()
 
-def return_stocks():
+def return_stocks(uid):
     """
     Retrieves all tracked stocks and their most recent alert type.
 

@@ -19,6 +19,15 @@
     </header>
 
     <main>
+        <div class="flash-messages">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash-message {{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+        </div>
         <h2>Find the Best Time to Buy or Sell</h2>
         <p>Enter a stock ticker to see live buy/sell signals.</p>
 
@@ -70,8 +79,13 @@
                         <br><small>Insider trades suggest a {{ explanation['insider_decision'] | upper }} bias.</small>
                     </li>
                 </ul>
-                <button type="button">Track it</button>
-                <button type="button">Skip it</button>
+                <div class="action-buttons">
+                <form method="POST" action="/track-stock" style="display: inline;">
+                    <input type="hidden" name="ticker" value="{{ ticker }}">
+                    <button type="submit" class="track-btn">Track it</button>
+                </form>
+                <button type="button" class="skip-btn" onclick="window.location.reload()">Skip it</button>
+                </div>
             </div>
         {% elif decision == "SELL" %}
             <div class="sell answer-box">
@@ -115,8 +129,13 @@
                     </li>
                 </ul>
                 
-                <button type="button">Track it</button>
-                <button type="button">Skip it</button>
+                <div class="action-buttons">
+                <form method="POST" action="/track-stock" style="display: inline;">
+                    <input type="hidden" name="ticker" value="{{ ticker }}">
+                    <button type="submit" class="track-btn">Track it</button>
+                </form>
+                <button type="button" class="skip-btn" onclick="window.location.reload()">Skip it</button>
+                </div>
             </div>
         {% elif decision == "HOLD" %}
         <div class="sell answer-box">
@@ -160,8 +179,13 @@
                 </li>
             </ul>
             
-            <button type="button">Track it</button>
-            <button type="button">Skip it</button>
+            <div class="action-buttons">
+            <form method="POST" action="/track-stock" style="display: inline;">
+                <input type="hidden" name="ticker" value="{{ ticker }}">
+                <button type="submit" class="track-btn">Track it</button>
+            </form>
+            <button type="button" class="skip-btn" onclick="window.location.reload()">Skip it</button>
+            </div>
         </div>
         {% elif decision == "INVALID SYMBOL" %}
             <div class="invalid answer-box">
@@ -182,6 +206,9 @@
         </div>
         {% endif %}
     </main>
+    <footer>
+    <p>&copy; 2025 SmartInvest. All rights reserved.</p>
+    </footer>
     <script src="static/autocomplete.js"></script>
 </body>
 </html>
